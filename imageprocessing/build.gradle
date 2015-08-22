@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+
+ext{
+    libraryDescription = 'Several techniques to process images. Segmentation: Otsu, Sahoo and Kittler.'
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.0'
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+group = 'com.aldoreyes'
+version = '0.0.1'
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'basic-image-processing-android'
+        desc = libraryDescription
+        websiteUrl = 'https://github.com/aldoreyes/BasicImageProcessingAndroid'
+        vcsUrl = 'https://github.com/aldoreyes/BasicImageProcessingAndroid-Deprecated.git'
+        licenses = ["AGPL-V3"]
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
